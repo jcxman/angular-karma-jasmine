@@ -23,6 +23,12 @@ describe("PieController",function(){
                $scope.eatSlice();
                expect($scope.slice).toEqual(7);
            });
+
+           it("Should do nothing when slices is 0" , function(){
+               $scope.slice = 0;
+               $scope.eatSlice();
+               expect($scope.slice).toEqual(0);
+           });
        });
     });
 
