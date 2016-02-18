@@ -13,7 +13,9 @@ describe("PieController",function(){
             $rootScope = $injector.get("$rootScope");
             $scope = $rootScope.$new();
             controller = $injector.get('$controller')("PieController",{$scope :$scope});
-        })
+        });
+
+        $scope.$digest();
     });
 
     describe("Action Handlers",function(){
@@ -45,10 +47,23 @@ describe("PieController",function(){
         })
     });
 
+    describe("Listener",function(){
+
+        it("Should set the warning to RED ALERT!", function(){
+           $rootScope.$broadcast("pieHasBeenDepleted");
+            $scope.$digest();
+            expect($scope.warning).toEqual("RED ALERT!");
+        });
+        it("Should set the slices to 0", function(){
+           $rootScope.$broadcast("pieHasBeenDepleted");
+            $scope.$digest();
+            expect($scope.slice).toEqual(0);
+        });
+
+    });
+
     describe("Watchers",function(){
-       beforeEach(function(){
-          $scope.$digest();
-       });
+
        describe("nutritionalValue",function(){
            it("Should set the warning that Carbs have gone up, when only carbs go up", function(){
                $scope.nutritionalValue.carbs ++;

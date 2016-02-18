@@ -12,6 +12,11 @@ function PieController($scope){
     };
     $scope.slice = 8;
 
+    $scope.$on("pieHasBeenDepleted",function(){
+       $scope.warning = "RED ALERT!";
+        $scope.slice = 0;
+    });
+
     function compareAndWarn(newVal,oldVal){
         var props = [];
         if( newVal && oldVal){
