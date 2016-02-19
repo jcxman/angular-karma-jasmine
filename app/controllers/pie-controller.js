@@ -2,9 +2,9 @@
  * Created by chenxin on 2/11/2016.
  */
 angular.module('pie',[])
-    .controller('PieController',['$scope',PieController]);
+    .controller('PieController',['$scope','DessertManager',PieController]);
 
-function PieController($scope){
+function PieController($scope,dessertManager){
     $scope.eatSlice = function() {
         if ($scope.slice){
             $scope.slice--;
@@ -37,6 +37,14 @@ function PieController($scope){
             $scope.warning = null;
         }
     },true);//deep watch
+
+    $scope.toggleMode = function(){
+        if (dessertManager.mode() === 'pie'){
+            dessertManager.mode("cake");
+        }  else {
+            dessertManager.mode("pie");
+        }
+    };
 
     this.requestFlavor = function( flavor){
         $scope.lastRequestedFlavor = flavor;

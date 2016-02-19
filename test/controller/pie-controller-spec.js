@@ -4,14 +4,17 @@
 describe("PieController",function(){
     var $rootScope,
         $scope,
+        dessertManager,
         controller;
 
     beforeEach(function(){
-        module("pie");
+        module("pie",'desserts');
+        //module.apply(this,Dessert.Dependencies);
 
         inject(function($injector){
             $rootScope = $injector.get("$rootScope");
             $scope = $rootScope.$new();
+            dessertManager = $injector.get('DessertManager');
             controller = $injector.get('$controller')("PieController",{$scope :$scope});
         });
 
@@ -32,6 +35,24 @@ describe("PieController",function(){
                expect($scope.slice).toEqual(0);
            });
        });
+
+        describe("toggleMode", function(){
+            var modeSpy;
+           beforeEach(function(){
+                modeSpy = spyOn(dessertManager,'mode').and.returnValue("pie");
+           });
+
+           it("Should switch the mode to cake whenever the mode is equal to pie", function () {
+                $scope.toggleMode();
+               expect(modeSpy).toHaveBeenCalledWith("cake");
+           });
+
+           it("Should switch the mode to pie if the mode is anything other than", function () {
+                modeSpy = modeSpy.and.returnValue("cupcake");
+               $scope.toggleMode();
+               expect(modeSpy).toHaveBeenCalledWith("pie");
+           });
+        });
 
        describe("requestFlavor",function(){
           it("Should set $scope.lastRequestFlavor to the passed in argument", function(){
